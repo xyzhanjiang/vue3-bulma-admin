@@ -15,7 +15,7 @@
               </div>
             </div>
           </div>
-          <div class="content article-body" v-html="data.post.content"></div>
+          <div class="content article-body" v-html="formatContent(data.post.content)"></div>
         </div>
       </div>
       <!-- end .article -->
@@ -92,8 +92,10 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import axios from 'axios'
+import { flow } from 'lodash'
 import dayjs from 'dayjs'
+import marked from 'marked'
+import DOMPurify from 'dompurify'
 
 import { usePost } from '@/common'
 import appNav from '@/components/nav.vue'
@@ -101,7 +103,7 @@ import appNav from '@/components/nav.vue'
 export default {
   setup() {
     const route = useRoute()
-    const { state } = useStore()
+    const { state, dispatch } = useStore()
 
     const content = ref('')
     const isSubmitting = ref(false)
@@ -110,6 +112,15 @@ export default {
       // 添加 comment，请求时提交按钮展示 Loading，并不可点击，同时文本框不可修改
       isSubmitting.value = true
 
+      /**
+       * comment 格式
+       * {
+       *   author
+       *   content
+       *   date
+       *   postId
+       * }
+       */
       const comment = {
         author: state.user?.name || 'NameLess',
         content: content.value,
@@ -117,7 +128,7 @@ export default {
         postId: route.params.id
       }
 
-      axios.post('/api/comments', comment).then((res) => {
+      dispatch('comments/add', comment).then((res) => {
         data.value.comments.push(res.data)
         content.value = ''
       }).catch((err) => {
@@ -129,7 +140,7 @@ export default {
 
     function delComment(comment) {
       if (!window.confirm('Sure?')) return
-      axios.delete(`/api/comments/${comment.id}`).then(() => {
+      dispatch('comments/del', comment.id).then(() => {
         // 根据 comment 的 index 删除该条数据
         // TODO remove value
         data.value.comments.splice(data.value.comments.indexOf(comment), 1)
@@ -144,6 +155,11 @@ export default {
       return dayjs(date).format('MMM DD, YYYY')
     }
 
+    // 将 markdown 格式到文本转换为 HTML
+    // 同时去掉不安全到内容
+    // 因为这个内容会使用 v-html 指令挂载到 DOM
+    const formatContent = flow(marked, DOMPurify.sanitize)
+
     // watch route.params.id
     const { error, data, isLoading, isDelayElapsed } = usePost(() => route.params.id)
 
@@ -156,6 +172,7 @@ export default {
       isDelayElapsed,
       content,
       isSubmitting,
+      formatContent,
       formatDate
     }
   },

@@ -1,7 +1,14 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
+import posts from './modules/posts'
+import comments from './modules/comments'
+
 const store = createStore({
+  modules: {
+    posts,
+    comments
+  },
   state: {
     user: null
   },

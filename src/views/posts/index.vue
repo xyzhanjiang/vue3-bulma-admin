@@ -63,7 +63,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(relativeTime)
+dayjs.extend(relativeTime) // 添加该插件 dayjs 才能使用 fromNow 方法
 
 import { usePosts } from '@/common'
 import appNav from '@/components/nav.vue'
@@ -85,7 +85,8 @@ export default {
       error,
       isLoading,
       isDelayElapsed,
-      // 响应式变量在模板中会自动展开，不用写成 page.value
+      // 通过 ref, computed 等方法得到的响应式变量在模板中会自动展开
+      // 不用写成 page.value 的形式
       page,
       formatDate
     }

@@ -28,10 +28,16 @@ const routes = [
   {
     path: '/about',
     component: () => import('@/views/about.vue')
+  },
+  {
+    path: '/:catchAll(.*)', // Catch all routes
+    component: () => import('@/views/about.vue')
   }
 ]
 
 const router = createRouter({
+  // also createWebHistory and createMemoryHistory
+  // createMemoryHistory 用于服务端渲染 SSR
   history: createWebHashHistory(),
   routes
 })

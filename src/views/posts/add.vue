@@ -40,7 +40,6 @@
 import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import axios from 'axios'
 import marked from 'marked'
 import { debounce } from 'lodash'
 
@@ -50,9 +49,10 @@ const delay = 400 // 防抖动时间
 
 export default {
   setup() {
-    const { state } = useStore()
+    const { state, dispatch } = useStore()
     const router = useRouter()
 
+    // reactive 返回一个响应式代理对象
     const post = reactive({
       title: 'Title here',
       content: '# Hello'
@@ -65,7 +65,18 @@ export default {
 
     function addPost() {
       isSubmitting.value = true
-      axios.post('/api/posts', {
+
+      /**
+       * post 格式
+       * {
+       *   author
+       *   content
+       *   date
+       *   tags
+       *   title
+       * }
+       */
+      dispatch('posts/add', {
         title: post.title,
         content: post.content,
         author: state.user?.name || 'NameLess',

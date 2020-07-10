@@ -1,7 +1,5 @@
 import { ref, watchEffect } from 'vue'
 import axios from 'axios'
-import marked from 'marked'
-import DOMPurify from 'dompurify'
 
 const pageSize = 5
 
@@ -9,6 +7,8 @@ const pageSize = 5
  * @param {Function} getData
  */
 export function useData(getData) {
+  // ref 方法返回一个 Object
+  // 如果传给 ref 的值为 Object，将自动对其调用 reactive 方法
   const error = ref(null)
   const data = ref(null)
   const isLoading = ref(false)
@@ -17,7 +17,7 @@ export function useData(getData) {
   // watchEffect 会在组件卸载时自动停止
   // watchEffect 会返回一个停止函数，也可以在需要时手动停止
   watchEffect(() => {
-    // ref 返回的值包含在 value 属性中
+    // ref 返回的值包含在 value 属性中，读取修改值的时候都要通过 value 属性
     error.value = null
     data.value = null
     isLoading.value = true
@@ -64,9 +64,6 @@ export function usePost(getId) {
       axios.get(`/api/posts/${id}`),
       axios.get(`/api/posts/${id}/comments?_embed=replies`)
     ]).then(([res1, res2]) => {
-      if (res1.data.content) {
-        res1.data.content = DOMPurify.sanitize(marked(res1.data.content))
-      }
       return ({
         post: res1.data,
         comments: res2.data

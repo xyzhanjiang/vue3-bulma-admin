@@ -2,8 +2,8 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="container">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
-        <img alt="Logo" src="#" width="112" height="28">
+      <a class="navbar-item" href="#">
+        <img alt="Logo" src="@/images/logo.gif" width="112" height="28">
       </a>
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
