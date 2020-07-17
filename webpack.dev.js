@@ -35,6 +35,14 @@ module.exports = {
         ]
       },
       {
+        test: /\.s[ac]ss$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
@@ -69,15 +77,9 @@ module.exports = {
     before(app, server) {
       app.post('/login', (req, res) => {
         res.json({
-          token: 'yyy'
+          token: 'AUTH_TOKEN'
         })
       })
-    },
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        pathRewrite: {'^/api' : ''}
-      }
     },
     compress: true,
     port: 8080

@@ -38,6 +38,16 @@ module.exports = {
         ]
       },
       {
+        test: /\.s[ac]ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
+      },
+      {
         test: /\.(png|jpe?g|gif)$/i,
         loader: 'file-loader',
         options: {

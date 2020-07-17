@@ -1,11 +1,14 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
+import users from './modules/users'
 import posts from './modules/posts'
 import comments from './modules/comments'
+import { storeTokenKey } from '@/config'
 
 const store = createStore({
   modules: {
+    users,
     posts,
     comments
   },
@@ -15,6 +18,13 @@ const store = createStore({
   mutations: {
     setUser(state, user) {
       state.user = user
+      if (user) {
+        axios.defaults.headers.common['Authorization'] = user.token
+        localStorage.setItem(storeTokenKey, JSON.stringify(user))
+      } else {
+        // 删除 request header 里的信息
+        localStorage.removeItem(storeTokenKey)
+      }
     }
   },
   actions: {

@@ -1,7 +1,13 @@
 import { ref, watchEffect } from 'vue'
 import axios from 'axios'
 
-const pageSize = 5
+import { pageSize } from '@/config'
+
+// 创建一个 axios 实例，该文件内请求均使用这个实例
+// 其它文件不受影响
+const axiosInstance = axios.create({
+  baseURL: 'https://jsonplaceholder.typicode.com/'
+})
 
 /**
  * @param {Function} getData
@@ -45,10 +51,12 @@ export function useData(getData) {
 export function usePosts(getPage) {
   return useData(() => {
     const page = getPage() || 1
-    return axios.get(`/api/posts?_embed=comments&_page=${page}&_limit=${pageSize}&_sort=id&_order=desc`).then(({ headers, data }) => {
+    return axiosInstance.get(
+      `/posts?_embed=comments&_page=${page}&_limit=${pageSize}&_expand=user`
+    ).then(({ headers, data }) => {
       return {
         posts: data,
-        totalPage: Math.ceil(headers['x-total-count'] / pageSize)
+        totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1
       }
     })
   })
@@ -60,14 +68,25 @@ export function usePosts(getPage) {
 export function usePost(getId) {
   return useData(() => {
     const id = getId()
-    return Promise.all([
-      axios.get(`/api/posts/${id}`),
-      axios.get(`/api/posts/${id}/comments?_embed=replies`)
-    ]).then(([res1, res2]) => {
-      return ({
-        post: res1.data,
-        comments: res2.data
-      })
+    return axiosInstance.get(`/posts/${id}?_embed=comments&_expand=user`).then(({ data }) => {
+      return data
+    })
+  })
+}
+
+/**
+ * @param {Function} getPage
+ */
+export function useUsers(getPage) {
+  return useData(() => {
+    const page = getPage() || 1
+    return axiosInstance.get(
+      `/users?_page=${page}&_limit=${pageSize}`
+    ).then(({ headers, data }) => {
+      return {
+        users: data,
+        totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1
+      }
     })
   })
 }

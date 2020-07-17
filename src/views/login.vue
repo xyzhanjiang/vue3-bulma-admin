@@ -17,7 +17,7 @@
           </div>
           <div class="field">
             <div class="control">
-              <button class="button is-block is-primary is-fullwidth is-medium" type="submit">Login</button>
+              <button class="button is-block is-link is-fullwidth is-medium" type="submit">Login</button>
             </div>
           </div>
           <small><em>输入任意内容即可登录.</em></small>
@@ -29,13 +29,14 @@
 
 <script>
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default {
   setup() {
     const { dispatch } = useStore()
-    const router = useRouter()
+    const { push } = useRouter()
+    const { query } = useRoute()
 
     const user = reactive({
       name: '',
@@ -44,7 +45,7 @@ export default {
 
     function login() {
       dispatch('login', user).then(() => {
-        router.push('/')
+        push(query.redirect || '/')
       })
     }
 
@@ -68,10 +69,7 @@ export default {
 }
 
 .app-login {
-  background-color: var(--bg);
   color: var(--text-dark);
-  min-height: 100vh;
-  padding-top: 0;
 }
 
 @media (min-width: 769px) {
