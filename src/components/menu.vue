@@ -36,17 +36,23 @@
         <li><router-link to="/users/add">Add a member</router-link></li>
       </ul>
     </li>
-    <li><router-link to="/posts">Posts</router-link></li>
-    <li><a>Cloud Storage Environment Settings</a></li>
-    <li><a>Authentication</a></li>
+    <li>
+      <router-link to="/posts">
+        <span class="icon is-small">
+          <i class="fa fa-table"></i>
+        </span> Posts
+      </router-link>
+    </li>
+    <li><a>Payments</a></li>
+    <li><a>Transfers</a></li>
   </ul>
   <p class="menu-label">
     Transactions
   </p>
   <ul class="menu-list">
     <li><a>Payments</a></li>
-    <li><a>Transfers</a></li>
-    <li><a>Balance</a></li>
+    <li><router-link to="/form">Form</router-link></li>
+    <li><router-link to="/tiles">Tiles</router-link></li>
   </ul>
 </aside>
 </template>

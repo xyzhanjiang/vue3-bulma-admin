@@ -1,4 +1,4 @@
-# webpack-vue3-demo
+# vue3-bulma-admin
 
 vue3.0 试玩
 
@@ -17,7 +17,6 @@ npm install
 **Develop**
 
 ``` shell
-npm run db
 npm run dev
 ```
 

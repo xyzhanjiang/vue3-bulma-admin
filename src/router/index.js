@@ -12,7 +12,7 @@ const routes = [
       },
       {
         path: '/users',
-        component: () => import('@/views/users/list.vue')
+        component: () => import('@/views/users/index.vue')
       },
       {
         path: '/users/add',
@@ -21,6 +21,14 @@ const routes = [
       {
         path: '/posts',
         component: () => import('@/views/posts/index.vue')
+      },
+      {
+        path: '/form',
+        component: () => import('@/views/form/index.vue')
+      },
+      {
+        path: '/tiles',
+        component: () => import('@/views/tiles/index.vue')
       },
     ]
   },
@@ -43,7 +51,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  // also createWebHistory and createMemoryHistory
+  // 也有 createWebHistory 和 createMemoryHistory
   // createMemoryHistory 用于服务端渲染 SSR
   history: createWebHashHistory(),
   routes,
@@ -58,10 +66,10 @@ router.beforeEach((to, from, next) => {
     if (store.state.user) {
       next()
     } else {
-      // 如果未登录，则跳转到登录页面，并带上当前页面的路径用于登录之后返回
+      // 如果未登录，则跳转到登录页面
       next({
         path: '/login',
-        query: { redirect: to.fullPath }
+        query: { redirect: to.fullPath } // 传递当前页面的路径用于登录之后返回
       })
     }
   }

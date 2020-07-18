@@ -27,10 +27,10 @@
           <span>&nbsp;by.Genesis</span>
         </a>
         <div class="navbar-dropdown">
-          <a class="navbar-item">
+          <router-link class="navbar-item" to="/about">
             <span class="icon is-small"><i class="fa fa-user-o"></i></span>
             &nbsp; Profile
-          </a>
+          </router-link>
           <hr class="navbar-divider">
           <a @click="logout" class="navbar-item">
             <span class="icon is-small"><i class="fa fa-power-off"></i></span>

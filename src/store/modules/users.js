@@ -14,6 +14,12 @@ const store = {
     add({ commit }, user) {
       return axiosInstance.post('/users', user)
     },
+    getById({ commit }, id) {
+      return axiosInstance.get(`/users/${id}`)
+    },
+    edit({ commit }, user) {
+      return axiosInstance.patch(`/users/${user.id}`, user)
+    },
     del({ commit }, id) {
       // 然而并不会真的删除
       return axiosInstance.delete(`/users/${id}`)

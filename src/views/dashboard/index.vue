@@ -77,7 +77,7 @@ export default {
     })
     onUnmounted(() => {
       // 在组件销毁的时候毁灭 chart
-      chart1.destroy()
+      chart1.destroy() // 插件的方法
       chart1 = null
 
       chart2.destroy()
