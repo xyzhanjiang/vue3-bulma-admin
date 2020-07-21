@@ -15,7 +15,7 @@
       </div>
       <div class="tile is-parent">
         <article class="tile is-child box notification is-warning">
-          <p class="title">59k</p>
+          <p class="title">5,999.01k</p>
           <p class="subtitle">Products</p>
         </article>
       </div>
