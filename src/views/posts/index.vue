@@ -82,7 +82,7 @@
     </div>
   </div>
 
-  <Modal class="is-small" :isShown="editModal">
+  <Modal class="modal-fade" :isShown="editModal">
     <div class="modal-background"></div>
     <form @submit.prevent="editPost" action="#" method="post">
       <div class="modal-card">
@@ -107,8 +107,8 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-primary">Save</button>
-          <button @click="editModal = false" class="button">Cancel</button>
+          <button class="button is-primary" type="submit">Save</button>
+          <button @click="editModal = false" class="button" type="button">Cancel</button>
         </footer>
       </div>
     </form>
@@ -133,7 +133,7 @@ export default {
     // parse String to Number, 从路由取出的参数是字符串
     const page = computed(() => +route.query._page || 1)
 
-    // TODO 切换成 useUser 方法
+    // TODO 切换成 usePost 方法
     const selectedPost = reactive({})
     const editModal = ref(false)
     function getPost(id) {

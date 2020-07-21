@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <Modal :isShown="editModal">
+  <Modal class="modal-fade" :isShown="editModal">
     <div class="modal-background"></div>
     <form @submit.prevent="editUser" action="#" method="post">
       <div class="modal-card">

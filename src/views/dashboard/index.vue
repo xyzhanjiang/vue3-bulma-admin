@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 import ApexCharts from 'apexcharts'
 
 import chartData from '@/data/chart'
@@ -75,7 +75,7 @@ export default {
       chart2 = new ApexCharts(document.querySelector('#chart2'), chartData[1])
       chart2.render()
     })
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       // 在组件销毁的时候毁灭 chart
       chart1.destroy() // 插件的方法
       chart1 = null

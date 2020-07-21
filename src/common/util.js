@@ -1,3 +1,4 @@
+// 获取滚动条宽度
 export function getScrollbarWidth() {
   const el = document.createElement('div')
   el.style.position = 'absolute'
