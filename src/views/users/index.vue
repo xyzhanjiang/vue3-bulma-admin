@@ -121,6 +121,7 @@
         <footer class="modal-card-foot">
           <button
             class="button is-primary"
+            :class="{'is-loading': isSubmitting}"
             type="submit">Save</button>
           <button
             @click="editModal = false"
@@ -176,6 +177,7 @@ export default {
     const { error, data, isLoading, isDelayElapsed } = useUsers(() => route.query._page)
     const page = computed(() => +route.query._page || 1) // parse String to Number
 
+    const isSubmitting = ref(false)
     const confirmModal = ref(false)
 
     // TODO 切换成 useUser 方法
@@ -191,11 +193,15 @@ export default {
 
     // TODO 压缩数据，当前提交的是整个 user，可以优化为只提交有修改的数据
     function editUser() {
-      dispatch('users/edit', selectedUser).then((res) => {
-        editModal.value = false
-        let index = data.value.users.findIndex((item) => item.id === selectedUser.id)
-        data.value.users.splice(index, 1, res.data)
-      }).catch((err) => alert(err.message))
+      isSubmitting.value = true
+      dispatch('users/edit', selectedUser)
+        .then((res) => {
+          editModal.value = false
+          let index = data.value.users.findIndex((item) => item.id === selectedUser.id)
+          data.value.users.splice(index, 1, res.data)
+        })
+        .catch((err) => alert(err.message))
+        .finally(() => isSubmitting.value = false)
     }
 
     function delUser(user) {
@@ -218,6 +224,7 @@ export default {
       // 通过 ref, computed 等方法得到的响应式变量在模板中会自动展开
       // 不用写成 page.value 的形式
       page,
+      isSubmitting,
       confirmModal,
       selectedUser,
       editModal,

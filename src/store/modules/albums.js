@@ -10,17 +10,17 @@ const store = {
   mutations: {},
   actions: {
     add({ commit }, item) {
-      return axiosInstance.post('/comments', item)
+      return axiosInstance.post('/albums', item)
     },
     getById({ commit }, id) {
-      return axiosInstance.get(`/comments/${id}`)
+      return axiosInstance.get(`/albums/${id}`)
     },
     edit({ commit }, item) {
-      return axiosInstance.patch(`/comments/${item.id}`, item)
+      return axiosInstance.patch(`/albums/${item.id}`, item)
     },
     del({ commit }, id) {
       // 然而并不会真的删除
-      return axiosInstance.delete(`/comments/${id}`)
+      return axiosInstance.delete(`/albums/${id}`)
     }
   }
 }

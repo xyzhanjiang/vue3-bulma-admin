@@ -20,13 +20,15 @@
   opacity: 1;
 }
 
-.modal-fade .modal-card {
+.modal-fade .modal-card,
+.modal-fade .modal-content {
   opacity: 0;
   transform: scale(1.25);
   transition: all .3s;
 }
 
-.modal-fade.is-in .modal-card {
+.modal-fade.is-in .modal-card,
+.modal-fade.is-in .modal-content {
   opacity: 1;
   transform: scale(1);
 }

@@ -1,5 +1,12 @@
 <template>
   <div class="users-add">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><router-link to="/">Home</router-link></li>
+        <li><a href="../">Users</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Add</a></li>
+      </ul>
+    </nav>
     <div class="columns">
       <div class="column is-10">
         <form @submit.prevent="add" action="#">
@@ -68,6 +75,7 @@ export default {
       address: ''
     })
 
+    // 添加
     function add() {
       isSubmitting.value = true
       dispatch('users/add', form).then(() => {

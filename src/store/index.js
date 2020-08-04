@@ -1,16 +1,23 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
-import users from './modules/users'
-import posts from './modules/posts'
+import albums from './modules/albums'
 import comments from './modules/comments'
+import photos from './modules/photos'
+import posts from './modules/posts'
+import todos from './modules/todos'
+import users from './modules/users'
+
 import { storeTokenKey } from '@/config'
 
 const store = createStore({
   modules: {
-    users,
+    albums,
+    comments,
+    photos,
     posts,
-    comments
+    todos,
+    users
   },
   state: {
     user: null

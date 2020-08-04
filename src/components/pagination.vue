@@ -1,5 +1,5 @@
 <template>
-<nav class="pagination is-centered" role="navigation">
+<nav class="pagination is-small is-centered" role="navigation">
   <ul class="pagination-list">
     <li>
       <router-link class="pagination-link" aria-label="`Goto page ${pagePrev}`" :disabled="page === 1" :to="`?_page=${pagePrev}`">Previous</router-link>

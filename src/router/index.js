@@ -11,16 +11,32 @@ const routes = [
         component: () => import('@/views/dashboard/index.vue'),
       },
       {
+        path: '/posts',
+        component: () => import('@/views/posts/index.vue')
+      },
+      {
+        path: '/comments',
+        component: () => import('@/views/comments/index.vue')
+      },
+      {
+        path: '/albums',
+        component: () => import('@/views/albums/index.vue')
+      },
+      {
+        path: '/photos',
+        component: () => import('@/views/photos/index.vue')
+      },
+      {
+        path: '/todos',
+        component: () => import('@/views/todos/index.vue')
+      },
+      {
         path: '/users',
         component: () => import('@/views/users/index.vue')
       },
       {
         path: '/users/add',
         component: () => import('@/views/users/add.vue')
-      },
-      {
-        path: '/posts',
-        component: () => import('@/views/posts/index.vue')
       },
       {
         path: '/form',
@@ -31,10 +47,6 @@ const routes = [
         component: () => import('@/views/tiles/index.vue')
       },
     ]
-  },
-  {
-    path: '/register', // 目前没有注册页，同登录
-    component: () => import('@/views/login.vue')
   },
   {
     path: '/login',

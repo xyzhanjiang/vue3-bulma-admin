@@ -11,14 +11,14 @@ const store = {
   state: () => ({}),
   mutations: {},
   actions: {
-    add({ commit }, post) {
-      return axiosInstance.post('/posts', post)
+    add({ commit }, item) {
+      return axiosInstance.post('/posts', item)
     },
     getById({ commit }, id) {
       return axiosInstance.get(`/posts/${id}`)
     },
-    edit({ commit }, post) {
-      return axiosInstance.patch(`/posts/${post.id}`, post)
+    edit({ commit }, item) {
+      return axiosInstance.patch(`/posts/${item.id}`, item)
     },
     del({ commit }, id) {
       return axiosInstance.delete(`/posts/${id}`)

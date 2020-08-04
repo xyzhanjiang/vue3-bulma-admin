@@ -11,14 +11,14 @@ const store = {
   state: () => ({}),
   mutations: {},
   actions: {
-    add({ commit }, user) {
-      return axiosInstance.post('/users', user)
+    add({ commit }, item) {
+      return axiosInstance.post('/users', item)
     },
     getById({ commit }, id) {
       return axiosInstance.get(`/users/${id}`)
     },
-    edit({ commit }, user) {
-      return axiosInstance.patch(`/users/${user.id}`, user)
+    edit({ commit }, item) {
+      return axiosInstance.patch(`/users/${item.id}`, item)
     },
     del({ commit }, id) {
       // 然而并不会真的删除

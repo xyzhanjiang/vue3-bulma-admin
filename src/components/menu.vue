@@ -12,7 +12,6 @@
         </span> Dashboard
       </router-link>
     </li>
-    <li><a>Customers</a></li>
   </ul>
   <p class="menu-label">
     Administration
@@ -32,7 +31,6 @@
         </span> Manage Your Team</a>
       <ul>
         <li><router-link to="/users">Members</router-link></li>
-        <li><a>Plugins</a></li>
         <li><router-link to="/users/add">Add a member</router-link></li>
       </ul>
     </li>
@@ -43,14 +41,34 @@
         </span> Posts
       </router-link>
     </li>
-    <li><a>Payments</a></li>
-    <li><a>Transfers</a></li>
+    <li>
+      <router-link to="/albums">
+        <span class="icon is-small">
+          <i class="fa fa-folder-o"></i>
+        </span> Albums
+      </router-link>
+      <ul>
+        <li>
+          <router-link to="/photos">
+            <span class="icon is-small">
+              <i class="fa fa-photo"></i>
+            </span> Photos
+          </router-link>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <router-link to="/todos">
+        <span class="icon is-small">
+          <i class="fa fa-list"></i>
+        </span> Todos
+      </router-link>
+    </li>
   </ul>
   <p class="menu-label">
     Transactions
   </p>
   <ul class="menu-list">
-    <li><a>Payments</a></li>
     <li><router-link to="/form">Form</router-link></li>
     <li><router-link to="/tiles">Tiles</router-link></li>
   </ul>

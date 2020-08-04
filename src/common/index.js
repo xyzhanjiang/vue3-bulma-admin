@@ -55,7 +55,7 @@ export function usePosts(getPage) {
       `/posts?_embed=comments&_page=${page}&_limit=${pageSize}&_expand=user`
     ).then(({ headers, data }) => {
       return {
-        posts: data,
+        items: data,
         totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1
       }
     })
@@ -70,6 +70,74 @@ export function usePost(getId) {
     const id = getId()
     return axiosInstance.get(`/posts/${id}?_embed=comments&_expand=user`).then(({ data }) => {
       return data
+    })
+  })
+}
+
+/**
+ * @param {Function} getPage
+ */
+export function useComments(getPage) {
+  return useData(() => {
+    const page = getPage() || 1
+    return axiosInstance.get(
+      `/comments?_page=${page}&_limit=${pageSize}&_expand=user`
+    ).then(({ headers, data }) => {
+      return {
+        items: data,
+        totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1
+      }
+    })
+  })
+}
+
+/**
+ * @param {Function} getPage
+ */
+export function useAlbums(getPage) {
+  return useData(() => {
+    const page = getPage() || 1
+    return axiosInstance.get(
+      `/albums?_embed=photos&_page=${page}&_limit=${pageSize}`
+    ).then(({ headers, data }) => {
+      return {
+        items: data,
+        totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1
+      }
+    })
+  })
+}
+
+/**
+ * @param {Function} getPage
+ */
+export function usePhotos(getPage) {
+  return useData(() => {
+    const page = getPage() || 1
+    return axiosInstance.get(
+      `/photos?_page=${page}&_limit=${pageSize}`
+    ).then(({ headers, data }) => {
+      return {
+        items: data,
+        totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1
+      }
+    })
+  })
+}
+
+/**
+ * @param {Function} getPage
+ */
+export function useTodos(getPage) {
+  return useData(() => {
+    const page = getPage() || 1
+    return axiosInstance.get(
+      `/todos?_page=${page}&_limit=${pageSize}`
+    ).then(({ headers, data }) => {
+      return {
+        items: data,
+        totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1
+      }
     })
   })
 }
