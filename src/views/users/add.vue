@@ -14,25 +14,41 @@
             <div class="column is-6"> 
               <label class="label">Name</label>
               <p class="control">
-                <input class="input" type="text" placeholder="Name" v-model="form.name">
+                <input
+                  class="input"
+                  required
+                  type="text"
+                  placeholder="Name"
+                  v-model="form.name">
               </p>
               <label class="label">Phone</label>
               <p class="control">
-                <input class="input" type="text" placeholder="Phone" v-model="form.phone">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Phone"
+                  v-model="form.phone">
               </p>
               <label class="label">Website</label>
               <p class="control">
-                <input class="input" type="text" placeholder="Website" v-model="form.website">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Website"
+                  v-model="form.website">
               </p>
             </div>
             <div class="column is-6"> 
               <label class="label">Email</label>
               <p class="control">
-                <input class="input" type="text" placeholder="Email" v-model="form.email">
+                <input
+                  class="input" type="text"
+                  placeholder="Email" v-model="form.email">
               </p>
               <label class="label">Address</label>
               <p class="control">
-                <input class="input" type="text" placeholder="Address" v-model="form.address">
+                <input class="input" type="text"
+                  placeholder="Address" v-model="form.address">
               </p>
             </div>
           </div>

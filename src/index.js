@@ -1,5 +1,5 @@
 // import 'bulma/css/bulma.css'
-import 'bulmaswatch/flatly/bulmaswatch.scss'
+import '@/css/bulmaswatch.scss'
 import '@/css/style.css'
 
 import { createApp } from 'vue'

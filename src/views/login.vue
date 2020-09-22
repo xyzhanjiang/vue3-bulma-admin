@@ -43,7 +43,7 @@ export default {
       password: ''
     })
 
-    function login() {
+    const login = () => {
       dispatch('login', user).then(() => {
         push(query.redirect || '/')
       })

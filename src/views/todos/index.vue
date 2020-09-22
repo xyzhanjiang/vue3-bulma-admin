@@ -107,7 +107,10 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-primary" type="submit">Save</button>
+          <button
+            class="button is-primary"
+            :class="{'is-loading': isSubmitting}"
+            type="submit">Save</button>
           <button @click="editModal = false" class="button" type="button">Cancel</button>
         </footer>
       </div>
@@ -132,6 +135,8 @@ export default {
     // parse String to Number, 从路由取出的参数是字符串
     const page = computed(() => +route.query._page || 1)
 
+    const isSubmitting = ref(false)
+
     // TODO 切换成 usePost 方法
     const selectedItem = reactive({})
     const editModal = ref(false)
@@ -145,11 +150,15 @@ export default {
 
     // TODO 压缩数据，当前提交的是整个 post，可以优化为只提交有修改的数据
     function editItem() {
-      dispatch('todos/edit', selectedItem).then((res) => {
-        editModal.value = false
-        let index = data.value.items.findIndex((item) => item.id === selectedItem.id)
-        data.value.items.splice(index, 1, res.data)
-      }).catch((err) => alert(err.message))
+      isSubmitting.value = true
+      dispatch('todos/edit', selectedItem)
+        .then((res) => {
+          editModal.value = false
+          let index = data.value.items.findIndex((item) => item.id === selectedItem.id)
+          data.value.items.splice(index, 1, res.data)
+        })
+        .catch((err) => alert(err.message))
+        .finally(() => isSubmitting.value = false)
     }
 
     function delItem(post) {
@@ -172,6 +181,7 @@ export default {
       // 通过 ref, computed 等方法得到的响应式变量在模板中会自动展开
       // 不用写成 page.value 的形式
       page,
+      isSubmitting,
       selectedItem,
       editModal,
       getItem,

@@ -57,12 +57,12 @@
           <td>{{item.photos.length}}</td>
           <td>
             <div class="buttons">
-              <a @click.prevent="getPost(item.id)" class="button is-small is-primary" href="#">
+              <a @click.prevent="getItem(item.id)" class="button is-small is-primary" href="#">
                 <span class="icon is-small">
                   <i class="fa fa-edit"></i>
                 </span>
               </a>
-              <a @click.prevent="delPost(item)" class="button is-small is-danger" href="#">
+              <a @click.prevent="delItem(item)" class="button is-small is-danger" href="#">
                 <span class="icon is-small">
                   <i class="fa fa-times"></i>
                 </span>
@@ -84,7 +84,7 @@
 
   <Modal class="modal-fade" :isShown="editModal">
     <div class="modal-background"></div>
-    <form @submit.prevent="editPost" action="#" method="post">
+    <form @submit.prevent="editItem" action="#" method="post">
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Edit post</p>
@@ -95,20 +95,23 @@
             <div class="column"> 
               <label class="label">Title</label>
               <p class="control">
-                <input class="input" type="text" placeholder="Title"
-                  v-model="selectedPost.title">
-              </p>
-              <label class="label">Content</label>
-              <p class="control">
-                <textarea class="textarea" placeholder="Content"
-                  v-model="selectedPost.body"></textarea>
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Title"
+                  v-model="selectedItem.title">
               </p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-primary" type="submit">Save</button>
-          <button @click="editModal = false" class="button" type="button">Cancel</button>
+          <button
+            class="button is-primary"
+            type="submit">Save</button>
+          <button
+            @click="editModal = false"
+            class="button"
+            type="button">Cancel</button>
         </footer>
       </div>
     </form>
@@ -133,31 +136,31 @@ export default {
     const page = computed(() => +route.query._page || 1)
 
     // TODO 切换成 usePost 方法
-    const selectedPost = reactive({})
+    const selectedItem = reactive({})
     const editModal = ref(false)
-    function getPost(id) {
-      dispatch('posts/getById', id).then((res) => {
+    function getItem(id) {
+      dispatch('albums/getById', id).then((res) => {
         // TODO Need Object.assign polyfill
-        Object.assign(selectedPost, res.data)
+        Object.assign(selectedItem, res.data)
         editModal.value = true
       }).catch((err) => alert(err.message))
     }
 
     // TODO 压缩数据，当前提交的是整个 post，可以优化为只提交有修改的数据
-    function editPost() {
-      dispatch('posts/edit', selectedPost).then((res) => {
+    function editItem() {
+      dispatch('albums/edit', selectedItem).then((res) => {
         editModal.value = false
-        let index = data.value.posts.findIndex((item) => item.id === selectedPost.id)
-        data.value.posts.splice(index, 1, res.data)
+        let index = data.value.items.findIndex((item) => item.id === selectedItem.id)
+        data.value.items.splice(index, 1, res.data)
       }).catch((err) => alert(err.message))
     }
 
-    function delPost(post) {
+    function delItem(post) {
       if (!window.confirm('Sure?')) return
-      dispatch('posts/del', post.id).then(() => {
+      dispatch('albums/del', post.id).then(() => {
         // 根据 comment 的 index 删除该条数据
         // TODO remove value
-        data.value.posts.splice(data.value.posts.indexOf(post), 1)
+        data.value.items.splice(data.value.items.indexOf(post), 1)
         console.log('Delete complete!')
       }).catch((err) => {
         alert(err.message)
@@ -172,11 +175,11 @@ export default {
       // 通过 ref, computed 等方法得到的响应式变量在模板中会自动展开
       // 不用写成 page.value 的形式
       page,
-      selectedPost,
+      selectedItem,
       editModal,
-      getPost,
-      editPost,
-      delPost
+      getItem,
+      editItem,
+      delItem
     }
   },
   components: {

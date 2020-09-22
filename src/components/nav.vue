@@ -22,7 +22,8 @@
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
           <figure class="image is-32x32">
-            <img alt="avatar" class="is-rounded" src="@/images/logo.png">
+            <img alt="avatar" class="is-rounded"
+              src="@/images/logo.png" style="max-height: none;">
           </figure>
           <span>&nbsp;by.Genesis</span>
         </a>

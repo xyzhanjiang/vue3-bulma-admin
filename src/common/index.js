@@ -81,7 +81,7 @@ export function useComments(getPage) {
   return useData(() => {
     const page = getPage() || 1
     return axiosInstance.get(
-      `/comments?_page=${page}&_limit=${pageSize}&_expand=user`
+      `/comments?_page=${page}&_limit=${pageSize}`
     ).then(({ headers, data }) => {
       return {
         items: data,
@@ -152,7 +152,7 @@ export function useUsers(getPage) {
       `/users?_page=${page}&_limit=${pageSize}`
     ).then(({ headers, data }) => {
       return {
-        users: data,
+        items: data,
         totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1
       }
     })

@@ -40,6 +40,15 @@
           <i class="fa fa-table"></i>
         </span> Posts
       </router-link>
+      <ul>
+        <li>
+          <router-link to="/comments">
+            <span class="icon is-small">
+              <i class="fa fa-comment"></i>
+            </span> Comments
+          </router-link>
+        </li>
+      </ul>
     </li>
     <li>
       <router-link to="/albums">

@@ -48,6 +48,13 @@ module.exports = {
         ],
       },
       {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
         test: /\.(png|jpe?g|gif)$/i,
         loader: 'file-loader',
         options: {

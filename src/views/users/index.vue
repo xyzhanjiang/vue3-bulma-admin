@@ -23,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr :key="item.id" v-for="item in data.users">
+        <tr :key="item.id" v-for="item in data.items">
           <td>{{item.id}}</td>
           <td>{{item.username}}</td>
           <td>{{item.name}}</td>
@@ -32,12 +32,12 @@
           <td>{{item.website}}</td>
           <td>
             <div class="buttons">
-              <a @click.prevent="getUser(item)" class="button is-small is-primary" href="#">
+              <a @click.prevent="getItem(item)" class="button is-small is-primary" href="#">
                 <span class="icon is-small">
                   <i class="fa fa-edit"></i>
                 </span>
               </a>
-              <a @click.prevent="delUser(item)" class="button is-small is-danger" href="#">
+              <a @click.prevent="delItem(item)" class="button is-small is-danger" href="#">
                 <span class="icon is-small">
                   <i class="fa fa-times"></i>
                 </span>
@@ -62,7 +62,7 @@
 
   <Modal class="modal-fade" :isShown="editModal">
     <div class="modal-background"></div>
-    <form @submit.prevent="editUser" action="#" method="post">
+    <form @submit.prevent="editItem" action="#" method="post">
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Edit user</p>
@@ -81,7 +81,7 @@
                   class="input"
                   placeholder="Username"
                   type="text"
-                  v-model="selectedUser.username">
+                  v-model="selectedItem.username">
               </p>
               <label class="label">Email</label>
               <p class="control">
@@ -89,7 +89,7 @@
                   class="input"
                   placeholder="Email"
                   type="text"
-                  v-model="selectedUser.email">
+                  v-model="selectedItem.email">
               </p>
               <label class="label">Website</label>
               <p class="control">
@@ -97,7 +97,7 @@
                   class="input"
                   placeholder="Website"
                   type="text"
-                  v-model="selectedUser.website">
+                  v-model="selectedItem.website">
               </p>
             </div>
             <div class="column is-6">
@@ -105,7 +105,7 @@
               <p class="control">
                 <input
                   class="input" placeholder="Name" type="text"
-                  v-model="selectedUser.name">
+                  v-model="selectedItem.name">
               </p>
               <label class="label">Phone</label>
               <p class="control">
@@ -113,7 +113,7 @@
                   class="input"
                   placeholder="Phone"
                   type="text"
-                  v-model="selectedUser.phone">
+                  v-model="selectedItem.phone">
               </p>
             </div>
           </div>
@@ -181,35 +181,35 @@ export default {
     const confirmModal = ref(false)
 
     // TODO 切换成 useUser 方法
-    const selectedUser = reactive({})
+    const selectedItem = reactive({})
     const editModal = ref(false)
-    function getUser(user) {
+    function getItem(user) {
       dispatch('users/getById', user.id).then((res) => {
         // TODO Need Object.assign polyfill
-        Object.assign(selectedUser, res.data)
+        Object.assign(selectedItem, res.data)
         editModal.value = true
       }).catch((err) => alert(err.message))
     }
 
     // TODO 压缩数据，当前提交的是整个 user，可以优化为只提交有修改的数据
-    function editUser() {
+    function editItem() {
       isSubmitting.value = true
-      dispatch('users/edit', selectedUser)
+      dispatch('users/edit', selectedItem)
         .then((res) => {
           editModal.value = false
-          let index = data.value.users.findIndex((item) => item.id === selectedUser.id)
-          data.value.users.splice(index, 1, res.data)
+          let index = data.value.items.findIndex((item) => item.id === selectedItem.id)
+          data.value.items.splice(index, 1, res.data)
         })
         .catch((err) => alert(err.message))
         .finally(() => isSubmitting.value = false)
     }
 
-    function delUser(user) {
+    function delItem(user) {
       if (!window.confirm('Sure?')) return
       dispatch('users/del', user.id).then(() => {
         // 根据 comment 的 index 删除该条数据
         // TODO remove value
-        data.value.users.splice(data.value.users.indexOf(user), 1)
+        data.value.items.splice(data.value.items.indexOf(user), 1)
         console.log('Delete complete!')
       }).catch((err) => {
         alert(err.message)
@@ -226,11 +226,11 @@ export default {
       page,
       isSubmitting,
       confirmModal,
-      selectedUser,
+      selectedItem,
       editModal,
-      getUser,
-      editUser,
-      delUser
+      getItem,
+      editItem,
+      delItem
     }
   },
   components: {

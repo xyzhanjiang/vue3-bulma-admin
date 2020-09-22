@@ -60,7 +60,7 @@
             <div class="buttons">
               <a @click.prevent="getItem(item.id)" class="button is-small is-primary" href="#">
                 <span class="icon is-small">
-                  <i class="fa fa-edit"></i>
+                  <i class="fa fa-eye"></i>
                 </span>
               </a>
               <a @click.prevent="delItem(item)" class="button is-small is-danger" href="#">

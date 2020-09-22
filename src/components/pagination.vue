@@ -10,6 +10,12 @@
     <li v-show="totalPage > 5 && page > 3">
       <span class="pagination-ellipsis">&hellip;</span>
     </li>
+    <li v-show="page === totalPage && totalPage > 4">
+      <router-link class="pagination-link" :aria-label="`Goto page ${pagePrev - 2}`" :to="`?_page=${pagePrev - 2}`">{{pagePrev - 2}}</router-link>
+    </li>
+    <li v-show="page > totalPage - 1 && totalPage > 3">
+      <router-link class="pagination-link" :aria-label="`Goto page ${pagePrev - 1}`" :to="`?_page=${pagePrev - 1}`">{{pagePrev - 1}}</router-link>
+    </li>
     <li v-show="page > 1">
       <router-link class="pagination-link" :aria-label="`Goto page ${pagePrev}`" :to="`?_page=${pagePrev}`">{{pagePrev}}</router-link>
     </li>
@@ -18,6 +24,12 @@
     </li>
     <li v-show="page < totalPage">
       <router-link class="pagination-link" :aria-label="`Goto page ${pageNext}`" :to="`?_page=${pageNext}`">{{pageNext}}</router-link>
+    </li>
+    <li v-show="page < 2 && totalPage > 3">
+      <router-link class="pagination-link" :aria-label="`Goto page ${pageNext + 1}`" :to="`?_page=${pageNext + 1}`">{{pageNext + 1}}</router-link>
+    </li>
+    <li v-show="page < 2 && totalPage > 4">
+      <router-link class="pagination-link" :aria-label="`Goto page ${pageNext + 2}`" :to="`?_page=${pageNext + 2}`">{{pageNext + 2}}</router-link>
     </li>
     <li v-show="totalPage > 5 && page < totalPage - 2">
       <span class="pagination-ellipsis">&hellip;</span>
@@ -54,4 +66,16 @@ export default {
     }
   }
 }
+
+/*
+example
+最大显示5个页码值，其余的用省略号表示
+1
+12
+123
+1234
+12345
+1234.6 1.3456
+1234.7 1.345.7 1.4567
+ */
 </script>

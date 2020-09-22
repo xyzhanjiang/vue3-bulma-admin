@@ -134,6 +134,8 @@ export default {
     // parse String to Number, 从路由取出的参数是字符串
     const page = computed(() => +route.query._page || 1)
 
+    const isSubmitting = ref(false)
+
     // TODO 切换成 usePost 方法
     const selectedItem = reactive({})
     const editModal = ref(false)
@@ -147,6 +149,7 @@ export default {
 
     // TODO 压缩数据，当前提交的是整个 post，可以优化为只提交有修改的数据
     function editItem() {
+      isSubmitting.value = true
       dispatch('posts/edit', selectedItem)
         .then((res) => {
           editModal.value = false
@@ -161,6 +164,7 @@ export default {
           // TODO 更科学的做法
         })
         .catch((err) => alert(err.message))
+        .finally(() => isSubmitting.value = false)
     }
 
     function delItem(post) {
@@ -183,6 +187,7 @@ export default {
       // 通过 ref, computed 等方法得到的响应式变量在模板中会自动展开
       // 不用写成 page.value 的形式
       page,
+      isSubmitting,
       selectedItem,
       editModal,
       getItem,
