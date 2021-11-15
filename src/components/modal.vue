@@ -7,6 +7,17 @@
 <script>
 import { ref, watch, watchEffect } from 'vue'
 
+const getScrollbarWidth = () => {
+  const div = document.createElement('div')
+  div.className = 'modal-scrollbar-measure'
+  document.body.appendChild(div)
+  const scrollbarWidth = div.getBoundingClientRect().width - div.clientWidth
+  document.body.removeChild(div)
+  return scrollbarWidth
+}
+
+const scrollbarWidth = getScrollbarWidth()
+
 export default {
   props: {
     isShown: Boolean
@@ -17,10 +28,16 @@ export default {
 
     // Modal 框激活的时候禁用 <html> 滚动条，防止背景滚动
     // .is-clipped { overflow: hidden; }
-    // TODO 给 <body> 添加 padding-right 占位，防止抖动
+    // 给 <body> 添加 padding-right 占位，防止背景抖动
     watchEffect(() => {
-      // TODO optional classList polyfill
       document.documentElement.classList[props.isShown ? 'add' : 'remove']('is-clipped')
+
+      const style = document.documentElement.style
+      if (props.isShown) {
+        style.paddingRight = scrollbarWidth + 'px'
+      } else {
+        style.removeProperty('padding-right')
+      }
     })
 
     watch(() => props.isShown, (val) => {

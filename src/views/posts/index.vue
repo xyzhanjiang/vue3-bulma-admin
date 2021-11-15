@@ -11,17 +11,12 @@
     <!-- Left side -->
     <div class="level-left">
       <div class="level-item">
-        <p class="subtitle is-5">
-          <strong>49</strong> posts
-        </p>
-      </div>
-      <div class="level-item">
         <div class="field has-addons">
           <p class="control">
-            <input class="input" type="text" placeholder="Find a post">
+            <input v-model="searchKeyWord" class="input" type="text" placeholder="Find a post">
           </p>
           <p class="control">
-            <button class="button">
+            <button @click="search" class="button is-link" type="button">
               Search
             </button>
           </p>
@@ -30,11 +25,8 @@
     </div>
 
     <div class="level-right">
-      <p class="level-item"><strong>All</strong></p>
-      <p class="level-item"><a>Published</a></p>
-      <p class="level-item"><a>Drafts</a></p>
-      <p class="level-item"><a>Deleted</a></p>
-      <p class="level-item"><a class="button is-success">New</a></p>
+      <p class="level-item"><button @click.prevent="refresh" class="button is-link" :class="isSubmitting && 'is-loading'" :disabled="isSubmitting" type="button">Refresh</button></p>
+      <p class="level-item"><router-link class="button is-link" to="/users/add">New</router-link></p>
     </div>
   </nav>
 
@@ -75,13 +67,8 @@
       </tbody>
     </table>
   </div>
-  <div class="columns" v-if="data">
-    <div class="column">
-      <div class="has-text-primary">Showing 1 to 10 of 49 entries</div>
-    </div>
-    <div class="column">
-      <Pagination :page="page" :total-page="data.totalPage"/>
-    </div>
+  <div v-if="data">
+    <Pagination :page="page" :total-page="data.totalPage"/>
   </div>
 
   <Modal class="modal-fade" :isShown="editModal">
@@ -109,7 +96,7 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-primary" type="submit">Save</button>
+          <button class="button is-primary" :class="isSubmitting && 'is-loading'" type="submit">Save</button>
           <button @click="editModal = false" class="button" type="button">Cancel</button>
         </footer>
       </div>
@@ -119,7 +106,7 @@
 
 <script>
 import { ref, reactive, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
 import { usePosts } from '@/common'
@@ -128,13 +115,23 @@ import Pagination from '@/components/pagination.vue'
 
 export default {
   setup() {
+    const router = useRouter()
     const route = useRoute()
     const { dispatch } = useStore()
-    const { error, data, isLoading, isDelayElapsed } = usePosts(() => route.query._page)
+    const { error, data, isLoading, isDelayElapsed } = usePosts(() => ({
+      accountName: route.query.accountName,
+      _page: route.query._page || 1
+    }))
     // parse String to Number, 从路由取出的参数是字符串
     const page = computed(() => +route.query._page || 1)
 
     const isSubmitting = ref(false)
+
+    // 刷新动态路由
+    // TODO 不共用同一个 isSubmitting 变量
+    const refresh = async () => {
+      //
+    }
 
     // TODO 切换成 usePost 方法
     const selectedItem = reactive({})
@@ -179,6 +176,19 @@ export default {
       })
     }
 
+    // 搜索关键字
+    const searchKeyWord = ref(route.query.accountName)
+
+    // 搜索
+    const search = () => {
+      router.push({
+        path: route.path,
+        query: {
+          accountName: searchKeyWord.value
+        }
+      })
+    }
+
     return {
       data,
       error,
@@ -188,11 +198,14 @@ export default {
       // 不用写成 page.value 的形式
       page,
       isSubmitting,
+      refresh,
       selectedItem,
       editModal,
       getItem,
       editItem,
-      delItem
+      delItem,
+      searchKeyWord,
+      search
     }
   },
   components: {

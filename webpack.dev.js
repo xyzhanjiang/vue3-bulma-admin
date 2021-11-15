@@ -13,8 +13,6 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'vue': '@vue/runtime-dom',
-      'vuex': 'vuex/dist/vuex.esm-bundler',
       '@': path.join(__dirname, 'src')
     }
   },
@@ -51,10 +49,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'images/[name].[ext]'
-        }
+        type: 'asset/resource'
       },
       {
         test: /\.vue$/,
@@ -74,7 +69,7 @@ module.exports = {
     new VueLoaderPlugin()
   ],
   devServer: {
-    before(app, server) {
+    onBeforeSetupMiddleware({ app, server }) {
       app.post('/login', (req, res) => {
         res.json({
           token: 'AUTH_TOKEN'
@@ -82,7 +77,8 @@ module.exports = {
       })
     },
     compress: true,
+    historyApiFallback: true,
     port: 8080
   },
-  devtool: '#source-map'
+  devtool: 'source-map'
 }

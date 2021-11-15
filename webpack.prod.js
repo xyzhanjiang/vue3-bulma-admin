@@ -4,7 +4,6 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
@@ -56,10 +55,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'images/[name].[ext]'
-        }
+        type: 'asset/resource'
       },
       {
         test: /\.vue$/,
@@ -80,8 +76,5 @@ module.exports = {
       filename: '[name].css'
     }),
     new VueLoaderPlugin()
-  ],
-  optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})]
-  }
+  ]
 }

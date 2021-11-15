@@ -1,44 +1,93 @@
 <template>
-<nav class="pagination is-small is-centered" role="navigation">
+<nav class="pagination is-small is-right" role="navigation">
   <ul class="pagination-list">
     <li>
-      <router-link class="pagination-link" aria-label="`Goto page ${pagePrev}`" :disabled="page === 1" :to="`?_page=${pagePrev}`">Previous</router-link>
+      <a v-if="page === 1" class="pagination-link" disabled>上一页</a>
+      <router-link
+        v-else
+        class="pagination-link"
+        aria-label="`Goto page ${pagePrev}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: pagePrev }}">
+        上一页
+      </router-link>
     </li>
     <li v-show="page > 2">
-      <router-link class="pagination-link" aria-label="Goto page 1" to="?_page=1">1</router-link>
+      <router-link class="pagination-link" aria-label="Goto page 1" :to="{ path: $route.path, query: { ...$route.query, _page: 1 }}">1</router-link>
     </li>
     <li v-show="totalPage > 5 && page > 3">
       <span class="pagination-ellipsis">&hellip;</span>
     </li>
     <li v-show="page === totalPage && totalPage > 4">
-      <router-link class="pagination-link" :aria-label="`Goto page ${pagePrev - 2}`" :to="`?_page=${pagePrev - 2}`">{{pagePrev - 2}}</router-link>
+      <router-link
+        class="pagination-link"
+        :aria-label="`Goto page ${pagePrev - 2}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: pagePrev - 2 }}">
+        {{pagePrev - 2}}
+      </router-link>
     </li>
     <li v-show="page > totalPage - 1 && totalPage > 3">
-      <router-link class="pagination-link" :aria-label="`Goto page ${pagePrev - 1}`" :to="`?_page=${pagePrev - 1}`">{{pagePrev - 1}}</router-link>
+      <router-link
+        class="pagination-link"
+        :aria-label="`Goto page ${pagePrev - 1}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: pagePrev - 1 }}">
+        {{pagePrev - 1}}
+      </router-link>
     </li>
     <li v-show="page > 1">
-      <router-link class="pagination-link" :aria-label="`Goto page ${pagePrev}`" :to="`?_page=${pagePrev}`">{{pagePrev}}</router-link>
+      <router-link
+        class="pagination-link"
+        :aria-label="`Goto page ${pagePrev}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: pagePrev }}">
+        {{pagePrev}}
+      </router-link>
     </li>
     <li>
       <a class="pagination-link is-current" :aria-label="`Page ${page}`" aria-current="page" href="javascript:;">{{page}}</a>
     </li>
     <li v-show="page < totalPage">
-      <router-link class="pagination-link" :aria-label="`Goto page ${pageNext}`" :to="`?_page=${pageNext}`">{{pageNext}}</router-link>
+      <router-link
+        class="pagination-link"
+        :aria-label="`Goto page ${pageNext}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: pageNext }}">
+        {{pageNext}}
+      </router-link>
     </li>
     <li v-show="page < 2 && totalPage > 3">
-      <router-link class="pagination-link" :aria-label="`Goto page ${pageNext + 1}`" :to="`?_page=${pageNext + 1}`">{{pageNext + 1}}</router-link>
+      <router-link
+        class="pagination-link"
+        :aria-label="`Goto page ${pageNext + 1}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: pageNext + 1 }}">
+        {{pageNext + 1}}
+      </router-link>
     </li>
     <li v-show="page < 2 && totalPage > 4">
-      <router-link class="pagination-link" :aria-label="`Goto page ${pageNext + 2}`" :to="`?_page=${pageNext + 2}`">{{pageNext + 2}}</router-link>
+      <router-link
+        class="pagination-link"
+        :aria-label="`Goto page ${pageNext + 2}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: pageNext + 2 }}">
+        {{pageNext + 2}}
+      </router-link>
     </li>
     <li v-show="totalPage > 5 && page < totalPage - 2">
       <span class="pagination-ellipsis">&hellip;</span>
     </li>
     <li v-show="page < totalPage - 1">
-      <router-link class="pagination-link" :aria-label="`Goto page ${totalPage}`" :to="`?_page=${totalPage}`">{{totalPage}}</router-link>
+      <router-link
+        class="pagination-link"
+        :aria-label="`Goto page ${totalPage}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: totalPage }}">
+        {{totalPage}}
+      </router-link>
     </li>
     <li>
-      <router-link class="pagination-link" aria-label="`Goto page ${pageNext}`" :disabled="page == totalPage" :to="`?_page=${pageNext}`">Next</router-link>
+      <a v-if="page == totalPage" class="pagination-link" disabled>下一页</a>
+      <router-link
+        v-else
+        class="pagination-link"
+        aria-label="`Goto page ${pageNext}`"
+        :to="{ path: $route.path, query: { ...$route.query, _page: pageNext }}">
+        下一页
+      </router-link>
     </li>
   </ul>
 </nav>
@@ -46,6 +95,7 @@
 
 <script>
 import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 export default {
   props: {

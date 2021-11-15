@@ -16,7 +16,9 @@ export function useData(getData) {
   // ref 方法返回一个 Object
   // 如果传给 ref 的值为 Object，将自动对其调用 reactive 方法
   const error = ref(null)
-  const data = ref(null)
+  const data = ref({
+    items: []
+  })
   const isLoading = ref(false)
   const isDelayElapsed = ref(false)
 
@@ -25,7 +27,9 @@ export function useData(getData) {
   watchEffect(() => {
     // ref 返回的值包含在 value 属性中，读取修改值的时候都要通过 value 属性
     error.value = null
-    data.value = null
+    data.value = {
+      items: []
+    }
     isLoading.value = true
     isDelayElapsed.value = false
 
@@ -48,12 +52,16 @@ export function useData(getData) {
 /**
  * @param {Function} getPage
  */
-export function usePosts(getPage) {
+export function usePosts(getParam) {
   return useData(() => {
-    const page = getPage() || 1
-    return axiosInstance.get(
-      `/posts?_embed=comments&_page=${page}&_limit=${pageSize}&_expand=user`
-    ).then(({ headers, data }) => {
+    return axiosInstance.get('/posts', {
+      params: {
+        _embed: 'comments',
+        _limit: pageSize,
+        _expand: 'user',
+        ...getParam()
+      }
+    }).then(({ headers, data }) => {
       return {
         items: data,
         totalPage: Math.ceil(headers['x-total-count'] / pageSize) || 1

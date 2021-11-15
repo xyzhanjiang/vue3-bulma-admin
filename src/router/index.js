@@ -67,7 +67,7 @@ const router = createRouter({
   // createMemoryHistory 用于服务端渲染 SSR
   history: createWebHashHistory(),
   routes,
-  linkActiveClass: 'is-active' // 激活状态的 link 添加的 class
+  linkExactActiveClass: 'is-active' // 激活状态的 link 添加的 class
 })
 
 router.beforeEach((to, from, next) => {
