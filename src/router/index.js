@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import store from '../store'
+import { storeToRefs } from 'pinia'
+
+import { useUserStore } from '@/store/user'
 
 const routes = [
   {
@@ -15,36 +17,8 @@ const routes = [
         component: () => import('@/views/posts/index.vue')
       },
       {
-        path: '/comments',
-        component: () => import('@/views/comments/index.vue')
-      },
-      {
-        path: '/albums',
-        component: () => import('@/views/albums/index.vue')
-      },
-      {
-        path: '/photos',
-        component: () => import('@/views/photos/index.vue')
-      },
-      {
-        path: '/todos',
-        component: () => import('@/views/todos/index.vue')
-      },
-      {
-        path: '/users',
-        component: () => import('@/views/users/index.vue')
-      },
-      {
-        path: '/users/add',
-        component: () => import('@/views/users/add.vue')
-      },
-      {
         path: '/form',
         component: () => import('@/views/form/index.vue')
-      },
-      {
-        path: '/tiles',
-        component: () => import('@/views/tiles/index.vue')
       },
     ]
   },
@@ -75,7 +49,9 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login' || to.path === '/about') {
     next()
   } else {
-    if (store.state.user) {
+    const userStore = useUserStore()
+
+    if (userStore.user) {
       next()
     } else {
       // 如果未登录，则跳转到登录页面

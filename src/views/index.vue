@@ -12,14 +12,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Nav from '@/components/nav.vue'
 import Menu from '@/components/menu.vue'
-
-export default {
-  components: {
-    Nav,
-    Menu
-  }
-}
 </script>

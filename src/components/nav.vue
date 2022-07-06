@@ -60,26 +60,20 @@
 </nav>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
 
-export default {
-  setup() {
-    const { push } = useRouter()
-    const { state, dispatch } = useStore()
-    const isNavBarShown = ref(false)
+import { useUserStore } from '@/store/user'
 
-    const logout = () => dispatch('logout').then(() => {
-      push('/login')
-    })
+const userStore = useUserStore()
 
-    return {
-      state,
-      logout,
-      isNavBarShown
-    }
-  }
+const { push } = useRouter()
+const isNavBarShown = ref(false)
+
+const logout = () => {
+  userStore.logout().then(() => {
+    push('/login')
+  })
 }
 </script>

@@ -27,33 +27,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { storeToRefs } from 'pinia'
 
-export default {
-  setup() {
-    const { dispatch } = useStore()
-    const { push } = useRouter()
-    const { query } = useRoute()
+import { useUserStore } from '@/store/user'
 
-    const user = reactive({
-      name: '',
-      password: ''
-    })
+const { push } = useRouter()
+const { query } = useRoute()
+const userStore = useUserStore()
 
-    const login = () => {
-      dispatch('login', user).then(() => {
-        push(query.redirect || '/')
-      })
-    }
+const user = reactive({
+  name: '',
+  password: ''
+})
 
-    return {
-      user,
-      login
-    }
-  }
+const login = () => {
+  userStore.login(user).then(() => {
+    push(query.redirect || '/')
+  })
 }
 </script>
 

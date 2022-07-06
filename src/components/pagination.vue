@@ -93,29 +93,20 @@
 </nav>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-export default {
-  props: {
-    page: Number,
-    totalPage: {
-      type: Number,
-      default: 1
-    }
-  },
-  setup(props) {
-    const pagePrev = computed(() => props.page - 1)
-    const pageNext = computed(() => props.page + 1)
-
-    return {
-      ...props, // 使用展开操作符，props 包含的属性就定义在组件内
-      pagePrev,
-      pageNext
-    }
+const props = defineProps({
+  page: Number,
+  totalPage: {
+    type: Number,
+    default: 1
   }
-}
+})
+
+const pagePrev = computed(() => props.page - 1)
+const pageNext = computed(() => props.page + 1)
 
 /*
 example

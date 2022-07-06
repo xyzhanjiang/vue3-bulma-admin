@@ -4,7 +4,7 @@
 </div>
 </template>
 
-<script>
+<script setup>
 import { ref, watch, watchEffect } from 'vue'
 
 const getScrollbarWidth = () => {
@@ -18,44 +18,36 @@ const getScrollbarWidth = () => {
 
 const scrollbarWidth = getScrollbarWidth()
 
-export default {
-  props: {
-    isShown: Boolean
-  },
-  // 不要解构 props，否则会失去响应性
-  setup(props) {
-    const modal = ref(null)
+const props = defineProps({
+  isShown: Boolean
+})
 
-    // Modal 框激活的时候禁用 <html> 滚动条，防止背景滚动
-    // .is-clipped { overflow: hidden; }
-    // 给 <body> 添加 padding-right 占位，防止背景抖动
-    watchEffect(() => {
-      document.documentElement.classList[props.isShown ? 'add' : 'remove']('is-clipped')
+const modal = ref(null)
 
-      const style = document.documentElement.style
-      if (props.isShown) {
-        style.paddingRight = scrollbarWidth + 'px'
-      } else {
-        style.removeProperty('padding-right')
-      }
-    })
+// Modal 框激活的时候禁用 <html> 滚动条，防止背景滚动
+// .is-clipped { overflow: hidden; }
+// 给 <body> 添加 padding-right 占位，防止背景抖动
+watchEffect(() => {
+  document.documentElement.classList[props.isShown ? 'add' : 'remove']('is-clipped')
 
-    watch(() => props.isShown, (val) => {
-      if (val) {
-        modal.value.classList.add('is-active')
-        modal.value.offsetWidth
-        modal.value.classList.add('is-in')
-      } else {
-        modal.value.addEventListener('transitionend', () => {
-          modal.value.classList.remove('is-active')
-        }, { once: true })
-        modal.value.classList.remove('is-in')
-      }
-    })
-
-    return {
-      modal
-    }
+  const style = document.documentElement.style
+  if (props.isShown) {
+    style.paddingRight = scrollbarWidth + 'px'
+  } else {
+    style.removeProperty('padding-right')
   }
-}
+})
+
+watch(() => props.isShown, (val) => {
+  if (val) {
+    modal.value.classList.add('is-active')
+    modal.value.offsetWidth
+    modal.value.classList.add('is-in')
+  } else {
+    modal.value.addEventListener('transitionend', () => {
+      modal.value.classList.remove('is-active')
+    }, { once: true })
+    modal.value.classList.remove('is-in')
+  }
+})
 </script>

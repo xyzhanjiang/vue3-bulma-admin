@@ -3,7 +3,7 @@
   <div class="columns">
     <div class="column is-5">
       <div class="field">
-        <label class="label">Name</label>
+        <label class="label">Text input</label>
         <div class="control">
           <input class="input" type="text" placeholder="Text input">
         </div>
@@ -38,7 +38,21 @@
       </div>
 
       <div class="field">
-        <label class="label">Subject</label>
+        <label class="label">Suggestion input</label>
+        <div class="control">
+          <input class="input" list="suggestion-input" placeholder="Suggestion input" type="text">
+          <datalist id="suggestion-input">
+            <option value="Internet Explorer"/>
+            <option value="Firefox"/>
+            <option value="Google Chrome"/>
+            <option value="Opera"/>
+            <option value="Safari"/>
+          </datalist>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Select</label>
         <div class="control">
           <div class="select">
             <select>
@@ -50,7 +64,7 @@
       </div>
 
       <div class="field">
-        <label class="label">Message</label>
+        <label class="label">Textarea</label>
         <div class="control">
           <textarea class="textarea" placeholder="Textarea"></textarea>
         </div>

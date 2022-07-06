@@ -166,3 +166,62 @@ export function useUsers(getPage) {
     })
   })
 }
+
+/**
+ * @param {Function} getData
+ */
+export function useData2(getData) {
+  // ref 方法返回一个 Object
+  // 如果传给 ref 的值为 Object，将自动对其调用 reactive 方法
+  const error = ref(null)
+  const data = ref({
+    items: []
+  })
+  const isLoading = ref(false)
+  const isDelayElapsed = ref(false)
+
+  // watchEffect 会在组件卸载时自动停止
+  // watchEffect 会返回一个停止函数，也可以在需要时手动停止
+  watchEffect(() => {
+    // ref 返回的值包含在 value 属性中，读取修改值的时候都要通过 value 属性
+    error.value = null
+    data.value = {
+      items: []
+    }
+    isLoading.value = true
+    isDelayElapsed.value = false
+
+    getData().then((response) => {
+      data.value = {
+        items: response.data,
+        totalPage: 10
+      }
+    }).catch((err) => error.value = err).finally(() => isLoading.value = false)
+
+    // 如果毫秒以内数据就返回了，就不展示 Loading 了
+    setTimeout(() => isDelayElapsed.value = true, 200)
+  })
+
+  return {
+    error,
+    data,
+    isLoading,
+    isDelayElapsed
+  }
+}
+
+/**
+ * @param {Function} getPage
+ */
+export function usePosts2(params) {
+  console.log(params)
+  return useData2(() => {
+    return axios.get('/posts', {
+      params: {
+        pageSize,
+        page: params.page.value,
+        accountName: params.accountName.value
+      }
+    })
+  })
+}
